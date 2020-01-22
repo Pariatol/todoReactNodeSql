@@ -1,0 +1,87 @@
+
+
+body{
+    margin:0;
+    padding:0;
+    background-color: #363026;
+
+    color:#5ff55a;
+    font-size:10px;
+    font-family: "Computer Modern", sans-serif;
+}
+
+
+h1{
+    text-transform:uppercase;
+    font-size:5rem;
+}
+
+.todolist{
+    margin-top:4rem;
+    font-size:2.5rem;
+    border:1px solid #5ff55a;
+    border-radius:1rem;
+    min-height:18rem;
+    color:#5ff55a;
+    background-color:rgba(32, 22, 16, 0.667);
+
+}
+
+.todolist li{
+    padding-left:1rem;
+}
+
+.todolist li:hover{
+    width:95%;
+    background-color:black;
+    font-size:2.5rem;
+    padding-left:1rem;
+    border: 1px solid #5ff55a;
+}
+
+
+.todolist h2{
+    text-transform:uppercase;
+    padding:0 0 1rem 0.9rem;
+}
+
+.add-todo{
+    width:60%;
+    margin-left:2rem;
+    margin-bottom:2rem;
+}
+
+.todo-footer{
+    padding-top:5rem;
+    text-align:center;
+    font-size:3rem;
+}
+
+.fas{
+    color:#2e2a24;
+    font-size:1.5rem;
+    opacity:0;
+
+}
+
+button{
+    visibility:hidden;
+}
+
+.done:hover .fas{
+    opacity:1;
+}
+
+.done:hover button{
+    visibility: visible;
+}
+
+.doneQuestion{
+    visibility:hidden;
+    color:#f3e5d1;
+    font-size:1.3rem;
+}
+
+.taskToDo:hover .doneQuestion{
+    visibility:visible;
+}
