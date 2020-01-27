@@ -3,9 +3,12 @@
 body{
     margin:0;
     padding:0;
-    background-color: #363026;
+    background-color: #240246;
+    /* background-color: #29242e; */
 
-    color:#5ff55a;
+
+    /* color:#5ff55a; */
+    color:#f5f833;
     font-size:10px;
     font-family: "Computer Modern", sans-serif;
 }
@@ -14,15 +17,20 @@ body{
 h1{
     text-transform:uppercase;
     font-size:5rem;
+    margin-top:-2%;
+    font-weight:700;
 }
 
 .todolist{
     margin-top:4rem;
     font-size:2.5rem;
-    border:1px solid #5ff55a;
+    /* border:10px solid #5ff55a; */
+    border:10px solid #fc913a;
     border-radius:1rem;
     min-height:18rem;
-    color:#5ff55a;
+    /* color:#5ff55a; */
+    color:#f5f833;
+
     background-color:rgba(32, 22, 16, 0.667);
 
 }
@@ -36,7 +44,7 @@ h1{
     background-color:black;
     font-size:2.5rem;
     padding-left:1rem;
-    border: 1px solid #5ff55a;
+    border: 1px solid #eef105;
 }
 
 
@@ -46,9 +54,20 @@ h1{
 }
 
 .add-todo{
-    width:60%;
-    margin-left:2rem;
-    margin-bottom:2rem;
+    width:70%;
+    margin:0 auto;
+    border:5px solid #05f138;
+}
+
+#submitTodo{
+    background-color: #0000;
+    border-radius:10px;
+    margin-top:0.4rem;
+}
+
+#submitTodo:hover{
+    background-color: #eef105;
+    color:#240246;
 }
 
 .todo-footer{
@@ -61,10 +80,15 @@ h1{
     color:#2e2a24;
     font-size:1.5rem;
     opacity:0;
+}
+
+.far{
+    color:#fc913a;
+    font-size:2rem;
 
 }
 
-button{
+li button{
     visibility:hidden;
 }
 
@@ -85,3 +109,35 @@ button{
 .taskToDo:hover .doneQuestion{
     visibility:visible;
 }
+
+.login{
+    font-size:1.5rem;
+}
+
+#loginBox{
+    border:8px solid #fc913a;
+    border-radius:1.5rem;
+    z-index:1;
+    background-color: #220E2F;
+    color:#220E2F;
+    width: 40rem;
+	height: 25rem;	
+	position: absolute;
+	top:0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	margin: auto;    
+    cursor:pointer;
+}
+
+#loginBox input{
+    font-size:2rem;
+    margin-bottom:0.8rem;
+    margin-top:0.8rem;
+}
+
+.far{
+    padding:0.8rem;
+}
+

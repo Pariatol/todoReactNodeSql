@@ -3,13 +3,28 @@
 // second column : tache (type: varchar(100) )
 // third column : done (type: tinyint(1) )
 
+/* Ok, bug tout con : je crée un id dans la bdd en faisant new Date().getMilliseconds().
+Je fais la même chose, auparavant, dans le state React. Mais, forcément, ce n'est pas la même milliseconde...
+Par contre, la deuxième fois, ça marche parce que je réactualise la page : donc mon front va chercher les todos dans la bdd et s'aligne sur l'id du back...*/
+
+/* Que reste-t-il à faire ?
+      1/ la gestion des mdp
+      2/ le login
+      3/ le logout*/
+
 var express = require('express');
 var bodyParser = require("body-parser");
 var mysql = require('mysql');
+var session = require('client-sessions');
 const cors = require('cors');
 
-
 var server = express();
+server.use(session({
+  cookieName: 'session',
+  secret: 'random_string_goes_here',
+  duration: 30 * 60 * 1000,
+  activeDuration: 5 * 60 * 1000,
+}));
 server.use(bodyParser.urlencoded({ extended: false }));
 server.listen(8080);
 server.use(cors());
@@ -34,11 +49,11 @@ con.connect(function(err) {
 
 
 // Get All Todos
-server.get("/",function(req,res){
-
+server.get("/get/:user",function(req,res){
+  console.log("querying all todos from db");
 
   
-    con.query('SELECT * from TODO', function(err, rows, fields) {
+    con.query('SELECT * from TODO where user="'+req.params.user+'"', function(err, rows, fields) {
     // con.end();
       if(!err){
         res.status(200);
@@ -66,17 +81,46 @@ server.get("/",function(req,res){
       });
     });
 
+// Get All Todos
+server.get("/getpwd/:user",function(req,res){
+  console.log("querying all todos from db");
+
+  
+    con.query('SELECT motdepasse from UTILISATEURS where email="'+req.params.user+'"', function(err, rows, fields) {
+    // con.end();
+      if(!err){
+        res.status(200);
+        // console.log('The solution is: ', rows[0].motdepasse);
+       
+        if(rows[0]===undefined){
+          return "error : user doesn't exist";
+        }
+
+        res.send(rows[0].motdepasse);
+      }
+      else {
+        console.log('Error while performing Query.');
+        throw(err);
+    }
+      });
+    });
+    
+
 // Add todo
 // It works with get and params (I could do it with post but I'm lazy)
-server.get("/add/:todo",function(req, res){
+server.get("/add/:todo/:id/:user",function(req, res){
   console.log(req.params.todo);
+  console.log(req.params.id);
+  console.log(req.params.user);
 
 
 
 
 
-    var sql = "INSERT INTO todo (id,tache,done) VALUES(?,?,?)";
-    var inserts = [new Date().getMilliseconds(), req.params.todo,false];
+
+
+    var sql = "INSERT INTO todo (id,user,tache,done) VALUES(?,?,?,?)";
+    var inserts = [req.params.id, req.params.user,req.params.todo,false];
     sql = mysql.format(sql,inserts);
 
       con.query(sql, function (err, result) {
@@ -92,7 +136,7 @@ server.get("/add/:todo",function(req, res){
 // Toggle done/undone
 
 server.get("/toggle/:id",function(req, res){
-  console.log(req.params.id);
+  console.log("id du todo à toggle "+req.params.id);
 
 
 
@@ -109,14 +153,14 @@ server.get("/toggle/:id",function(req, res){
 });
 
 //delete todo
-server.get("/delete/:id",function(req, res){
-  console.log(req.params.id);
+server.get("/delete/:iddelete",function(req, res){
+  console.log(req.params.iddelete);
 
 
 
 
 
-    var sql = "DELETE FROM `todo` WHERE `todo`.`id`="+req.params.id;
+    var sql = "DELETE FROM `todo` WHERE `todo`.`id`="+req.params.iddelete;
 
       con.query(sql, function (err, result) {
         if (err) throw err;
@@ -127,3 +171,23 @@ server.get("/delete/:id",function(req, res){
   
 });
 
+//sign in
+server.post('/createuser', function(req, res){
+  var lol = req.body
+  console.log(req.body);
+  console.log(req.body.emailsubmit);
+
+  console.log('create user ?');
+
+    console.log("Connecté pour enregistrer un utilisateur");
+    var sql = "INSERT INTO utilisateurs (id,email,motdepasse) VALUES(?,?,?)";
+    var inserts = [new Date().getMilliseconds(),req.body.emailsubmit,req.body.pwdSubmit];
+    sql = mysql.format(sql,inserts);
+    
+    con.query(sql, function (err, result) {
+      if (err) throw err;
+      console.log("Un utilisateur a été enregistré");
+
+        });
+  res.redirect('http://localhost:3000/')
+});
