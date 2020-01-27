@@ -41,6 +41,7 @@ server.get("/",function(req,res){
     con.query('SELECT * from TODO', function(err, rows, fields) {
     // con.end();
       if(!err){
+        res.status(200);
         console.log('The solution is: ', rows);
         let toRender = rows.map(item=>{
           if(item.done===0){
@@ -81,6 +82,8 @@ server.get("/add/:todo",function(req, res){
       con.query(sql, function (err, result) {
         if (err) throw err;
         console.log("Un todo a été inséré.");
+        res.status(200);
+
             });
   
 });
@@ -99,6 +102,8 @@ server.get("/toggle/:id",function(req, res){
       con.query(sql, function (err, result) {
         if (err) throw err;
         console.log("Toggle done");
+        res.status(200);
+
             });
   
 });
@@ -116,6 +121,8 @@ server.get("/delete/:id",function(req, res){
       con.query(sql, function (err, result) {
         if (err) throw err;
         console.log("todo deleted");
+        res.status(200);
+
             });
   
 });
